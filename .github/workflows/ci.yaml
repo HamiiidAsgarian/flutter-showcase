@@ -37,3 +37,26 @@ jobs:
 
       - name: Run Flutter tests
         run: flutter test
+
+  build_ios:
+    name: Build Flutter (iOS)
+    needs: flutter_test
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version-file: pubspec.yaml
+          channel: stable
+
+      - name: Get Flutter dependencies
+        run: flutter pub get
+
+      - name: Clean Flutter project
+        run: flutter clean
+
+      - name: Build Flutter for iOS
+        run: flutter build ios --release --no-codesign
