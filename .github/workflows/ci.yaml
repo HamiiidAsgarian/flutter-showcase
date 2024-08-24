@@ -20,8 +20,8 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version-file: pubspec.yaml # Path to the pubspec.yaml
-          channel: stable # Use the stable channel
+          flutter-version-file: pubspec.yaml # Use the updated pubspec.yaml
+          channel: stable
 
       # Run Flutter commands
       - name: Get Flutter dependencies
