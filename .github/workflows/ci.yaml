@@ -13,9 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
-        with:
-          java-version: "17.x" # Use the latest stable Java version
       - uses: actions/setup-flutter@v2
         with:
           channel: "stable" # or "beta", "dev"
