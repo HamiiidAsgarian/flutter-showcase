@@ -2,10 +2,12 @@ name: CI
 
 on:
   pull_request:
-  push:
     branches:
       - main
       - develop
+  push:
+    branches:
+      - main
 
 jobs:
   flutter_test:
@@ -38,10 +40,38 @@ jobs:
       - name: Run Flutter tests
         run: flutter test
 
+  build_android:
+    name: Build Flutter (Android)
+    needs: flutter_test
+    runs-on: ubuntu-latest
+    #if: ${{ github.ref == 'refs/heads/main' }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version-file: pubspec.yaml
+          channel: stable
+
+      - name: Get Flutter dependencies
+        run: flutter pub get
+
+      - name: Clean Flutter project
+        run: flutter clean
+
+      - name: Build Flutter for Android APK
+        run: flutter build apk --release
+
+      - name: Build Flutter for Android App Bundle
+        run: flutter build appbundle --release
+
   build_ios:
     name: Build Flutter (iOS)
     needs: flutter_test
     runs-on: macos-latest
+    if: ${{ github.ref == 'refs/heads/main' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
