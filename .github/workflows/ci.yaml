@@ -12,21 +12,28 @@ jobs:
     name: Run tests and analysis
     runs-on: ubuntu-latest
     steps:
-      # Clone the repository
-      - name: Clone repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      # Set up Flutter using the version from pubspec.yaml
+      - name: Cache Flutter dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.pub-cache
+            .flutter-plugins
+            .flutter-plugins-deps
+          key: ${{ runner.os }}-flutter-${{ hashFiles('pubspec.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-flutter-
+
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version-file: pubspec.yaml # Use the updated pubspec.yaml
+          flutter-version-file: pubspec.yaml
           channel: stable
 
-      # Get Flutter dependencies
       - name: Get Flutter dependencies
         run: flutter pub get
 
-      # Run Flutter tests
       - name: Run Flutter tests
         run: flutter test
