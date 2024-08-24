@@ -5,7 +5,7 @@ version: 0.1.0
 
 environment:
   sdk: ">=3.5.1 <4.0.0"
-  flutter: 3.19.0 # Add this line with the exact Flutter version for CI
+  flutter: 3.24.1 # Update this line with the appropriate version
 
 dependencies:
   flutter:
