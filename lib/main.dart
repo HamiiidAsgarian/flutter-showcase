@@ -15,26 +15,29 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
-  var langIndex = 0;
+  int langIndex = 0;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       locale: AppLocalizations
-          .supportedLocales[langIndex], // TODO should change dynamically
+          .supportedLocales[langIndex], // TODOshould change dynamically
       home: Scaffold(
         body: Center(
-          child: Builder(builder: (cntxt) {
-            return CupertinoButton(
+          child: Builder(
+            builder: (cntxt) {
+              return CupertinoButton(
                 color: Colors.green,
                 onPressed: () {
                   setState(() {
                     langIndex = (langIndex == 0 ? 1 : 0);
                   });
                 },
-                child: Text(cntxt.l10n.language));
-          }),
+                child: Text(cntxt.l10n.language),
+              );
+            },
+          ),
         ),
       ),
     );
