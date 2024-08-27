@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_showcase/core/constants/app_colors.dart';
 import 'package:flutter_showcase/core/theme/text_theme.dart';
 
 class AppThemeData {
@@ -8,7 +9,8 @@ class AppThemeData {
     useMaterial3: true,
     //fontFamily: 'Popins',
     brightness: Brightness.light,
-    primaryColor: Colors.amber,
+    primaryColor: AppColors.primary500,
+
     textTheme: AppTextTheme.lightTextTheme,
   );
 
@@ -16,7 +18,7 @@ class AppThemeData {
     useMaterial3: true,
     //fontFamily: 'Popins',
     brightness: Brightness.dark,
-    primaryColor: Colors.purple,
+    primaryColor: AppColors.primary500,
     textTheme: AppTextTheme.darkTextTheme,
   );
 }
