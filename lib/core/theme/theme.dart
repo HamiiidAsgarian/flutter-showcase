@@ -20,7 +20,6 @@ class AppThemeData {
     useMaterial3: true,
     fontFamily: FontFamily.avenir,
     brightness: Brightness.light,
-    primaryColor: AppColors.primary500,
   );
 //----
   static ThemeData darkThemeData = ThemeData(
@@ -34,6 +33,5 @@ class AppThemeData {
     useMaterial3: true,
     fontFamily: FontFamily.avenir,
     brightness: Brightness.light,
-    primaryColor: AppColors.green1,
   );
 }

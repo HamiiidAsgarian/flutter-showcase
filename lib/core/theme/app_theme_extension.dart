@@ -46,6 +46,9 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
 }
 
 extension Xtheme on BuildContext {
-  AppThemeExtension get appTheme =>
-      Theme.of(this).extension<AppThemeExtension>()!;
+  CustomColors get colors =>
+      Theme.of(this).extension<AppThemeExtension>()!.customColors;
+
+  CustomTextTheme get styles =>
+      Theme.of(this).extension<AppThemeExtension>()!.customTextTheme;
 }

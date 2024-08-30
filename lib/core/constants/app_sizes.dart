@@ -2,10 +2,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 /// Responsive sizes (paddings, gaps, rounded corners ...)
 abstract class SizeR {
-  static final s32 = 32.r;
+  static final r4 = 4.r;
+  static final r8 = 8.r;
+  static final r12 = 12.r;
+  static final r32 = 32.r;
 }
 
 /// Constant sizes (paddings, gaps, rounded corners ...)
 abstract class SizeC {
-  static const s32 = 4.0;
+  static const c32 = 4.0;
 }
