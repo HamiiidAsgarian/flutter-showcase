@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_showcase/core/constants/app_colors.dart';
 import 'package:flutter_showcase/core/theme/app_theme_extension.dart';
 import 'package:flutter_showcase/core/theme/color_theme.dart';
 import 'package:flutter_showcase/core/theme/text_theme.dart';
