@@ -1,4 +1,15 @@
 {
-  "settings": "Settings",
-  "language": "Language"
+  "onboardingTitle1":"Location and destination",
+  "onboardingMessage1":"Your destination is at your fingerprint.Open the app and enter where you want to go ",
+
+  "onboardingTitle2":"Services quality",
+  "onboardingMessage2":"You have access to the best quality services ever",
+
+  "onboardingTitle3":"Be Comfortable",
+  "onboardingMessage3":"Make sure that you will have a relax time with family",
+
+
+  "next": "Next",
+  "proceed": "Proceed"
+
 }
