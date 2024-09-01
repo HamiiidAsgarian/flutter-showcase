@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_showcase/core/theme/theme.dart';
 import 'package:flutter_showcase/l10n/arb/app_localizations.dart';
+import 'package:flutter_showcase/onboarding/presentation/onboarding_bloc.dart';
 import 'package:flutter_showcase/onboarding/presentation/onboarding_screen.dart';
-import 'package:flutter_showcase/onboarding/presentation/state.dart';
 
 void main() {
   runApp(const MainApp());

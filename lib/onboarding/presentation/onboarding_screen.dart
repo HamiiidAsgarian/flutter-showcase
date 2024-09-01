@@ -7,7 +7,7 @@ import 'package:flutter_showcase/core/constants/app_sizes.dart';
 import 'package:flutter_showcase/core/theme/app_theme_extension.dart';
 import 'package:flutter_showcase/gen/assets.gen.dart' as ass;
 import 'package:flutter_showcase/l10n/ln10.dart';
-import 'package:flutter_showcase/onboarding/presentation/state.dart';
+import 'package:flutter_showcase/onboarding/presentation/onboarding_bloc.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});
@@ -36,14 +36,17 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       OnboardingItem(
         title: cntx.l10n.onboardingTitle1,
         message: cntx.l10n.onboardingMessage3,
-      ),
-      OnboardingItem(
-        title: cntx.l10n.onboardingTitle2,
-        message: cntx.l10n.onboardingMessage3,
+        imagePath: ass.Assets.images.cImage1.path,
       ),
       OnboardingItem(
         title: cntx.l10n.onboardingTitle3,
         message: cntx.l10n.onboardingMessage3,
+        imagePath: ass.Assets.images.cImage3.path,
+      ),
+      OnboardingItem(
+        title: cntx.l10n.onboardingTitle2,
+        message: cntx.l10n.onboardingMessage3,
+        imagePath: ass.Assets.images.cImage2.path,
       ),
     ];
   }
@@ -77,25 +80,20 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       },
                     ),
                     SizedBox(height: SizeR.r12),
-                    SizedBox(
-                      width: 200,
-                      child: SwipeSwitch(
-                        onSuccess: onSwipePage,
-                        buttonColor: context.colors.primary1,
-                        buttonLabel:
-                            BlocBuilder<OnBoardingBloc, OnBoardingState>(
-                          buildWhen: (previous, current) =>
-                              previous.stage != current.stage,
-                          builder: (context, state) {
-                            print("zzzzz ${state.stage}");
-                            return Text(
-                              state.stage == Stage.messages
-                                  ? context.l10n.next
-                                  : context.l10n.proceed,
-                              style: context.styles.b1,
-                            );
-                          },
-                        ),
+                    SwipeSwitch(
+                      onSuccess: onSwipePage,
+                      buttonColor: context.colors.primary1,
+                      buttonLabel: BlocBuilder<OnBoardingBloc, OnBoardingState>(
+                        buildWhen: (previous, current) =>
+                            previous.stage != current.stage,
+                        builder: (context, state) {
+                          return Text(
+                            state.stage == Stage.messages
+                                ? context.l10n.next
+                                : context.l10n.proceed,
+                            style: context.styles.b1,
+                          );
+                        },
                       ),
                     ),
                   ],
@@ -127,11 +125,13 @@ class OnboardingItem extends StatelessWidget {
   const OnboardingItem({
     required this.title,
     required this.message,
+    required this.imagePath,
     super.key,
   });
 
   final String title;
   final String message;
+  final String imagePath;
 
   @override
   Widget build(BuildContext context) {
@@ -139,18 +139,18 @@ class OnboardingItem extends StatelessWidget {
       children: [
         Positioned.fill(
           child: Image.asset(
-            ass.Assets.images.cImage1.path,
+            imagePath,
             fit: BoxFit.fitHeight,
           ),
         ),
         Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Color.fromARGB(131, 0, 0, 0),
-                Color.fromARGB(38, 255, 255, 255),
+                context.colors.dark.withOpacity(1),
+                context.colors.grey500.withOpacity(0.1),
               ],
             ),
           ),
@@ -227,9 +227,13 @@ class SwipeSwitch extends StatefulWidget {
     required this.buttonLabel,
     required this.onSuccess,
     super.key,
+    this.width = 200,
+    this.height = 50,
   });
   final Color buttonColor;
   final Widget buttonLabel;
+  final double width;
+  final double height;
   final void Function() onSuccess;
 
   @override
@@ -239,93 +243,78 @@ class SwipeSwitch extends StatefulWidget {
 class _SwipeSwitchState extends State<SwipeSwitch> {
   double x = 0;
 
-  double switchButtonHeight = 50;
-
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final switchWidth = constraints.maxWidth;
-        final buttonWidth = switchWidth * .6;
-        final buttonDropWidth = switchWidth * .4;
+    return SizedBox(
+      width: widget.width,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final switchWidth = constraints.maxWidth;
+          final buttonWidth = switchWidth * .5;
 
-        return Container(
-          decoration: BoxDecoration(
-            color: const Color.fromRGBO(193, 193, 195, 1),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          height: switchButtonHeight,
-          child: Stack(
-            children: [
-              Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.only(right: 16, top: 16, bottom: 16),
-                  child: FittedBox(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(3, (index) {
-                        return Icon(
-                          Icons.arrow_forward_ios,
-                          color: Colors.black.withOpacity((index + 1) / 3),
-                        );
+          return Container(
+            decoration: BoxDecoration(
+              color: const Color.fromRGBO(193, 193, 195, 1),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            height: widget.height,
+            child: Stack(
+              children: [
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.only(right: 16, top: 16, bottom: 16),
+                    child: FittedBox(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: List.generate(3, (index) {
+                          return Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.black.withOpacity((index + 1) / 3),
+                          );
+                        }),
+                      ),
+                    ),
+                  ),
+                ),
+                AnimatedPositioned(
+                  left: x,
+                  duration: const Duration(milliseconds: 100),
+                  child: Draggable(
+                    data: true,
+                    feedback: const SizedBox(),
+                    onDragUpdate: (details) => {
+                      setState(() {
+                        x = (x + details.delta.dx)
+                            .clamp(0, switchWidth - buttonWidth);
                       }),
-                    ),
-                  ),
-                ),
-              ),
-              AnimatedPositioned(
-                left: x,
-                duration: const Duration(milliseconds: 100),
-                child: Draggable(
-                  data: true,
-                  feedback: const SizedBox(),
-                  onDragUpdate: (details) => {
-                    setState(() {
-                      x = (x + details.delta.dx)
-                          .clamp(0, switchWidth - buttonWidth);
-                    }),
-                  },
-                  onDragEnd: (details) {
-                    setState(() {
-                      x = 0;
-                    });
-                  },
-                  axis: Axis.horizontal,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: widget.buttonColor,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    width: buttonWidth,
-                    height: switchButtonHeight,
-                    child: Center(child: FittedBox(child: widget.buttonLabel)),
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                //This is eligibale space for drapping the button
-                child: SizedBox(
-                  width: buttonDropWidth,
-                  height: switchButtonHeight,
-                  child: DragTarget(
-                    onAcceptWithDetails: (e) => widget.onSuccess(),
-                    builder: (
-                      BuildContext context,
-                      List<Object?> _,
-                      List<dynamic> __,
-                    ) {
-                      return const SizedBox();
                     },
+                    onDragEnd: (details) {
+                      if (x >= switchWidth / 2) widget.onSuccess();
+
+                      setState(() {
+                        x = 0;
+                      });
+                    },
+                    axis: Axis.horizontal,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: widget.buttonColor,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      width: buttonWidth,
+                      height: widget.height,
+                      child:
+                          Center(child: FittedBox(child: widget.buttonLabel)),
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        );
-      },
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }
