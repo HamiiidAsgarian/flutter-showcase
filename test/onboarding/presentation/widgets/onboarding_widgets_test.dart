@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_showcase/onboarding/presentation/onboarding_screen.dart';
+import 'package:flutter_showcase/onboarding/presentation/widgets/onboarding_widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 
