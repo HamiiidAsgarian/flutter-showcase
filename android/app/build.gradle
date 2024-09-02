@@ -10,6 +10,21 @@ android {
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
+    flavorDimensions "app"
+    productFlavors {
+        development {
+            dimension "app"
+            applicationIdSuffix ".dev"
+            manifestPlaceholders = [appName: "[DEV] showcase"]
+        }
+        production {
+            dimension "app"
+            applicationIdSuffix ""
+            manifestPlaceholders = [appName: "showcase"]
+        }
+
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
