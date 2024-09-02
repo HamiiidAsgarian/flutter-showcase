@@ -1,22 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_showcase/core/theme/app_theme_extension.dart';
+import 'package:flutter_showcase/core/theme/color_theme.dart';
 import 'package:flutter_showcase/core/theme/text_theme.dart';
+import 'package:flutter_showcase/gen/fonts.gen.dart';
 
 class AppThemeData {
   AppThemeData._();
 
   static ThemeData lightThemeData = ThemeData(
-    useMaterial3: true,
-    //fontFamily: 'Popins',
-    brightness: Brightness.light,
-    primaryColor: Colors.amber,
-    textTheme: AppTextTheme.lightTextTheme,
-  );
+    //For custom tailored theming
+    extensions: <ThemeExtension<AppThemeExtension>>[
+      AppThemeExtension(
+        customColors: AppColorTheme.lightColorTheme,
+        customTextTheme: AppTextTheme.lightTextTheme,
+      ),
+    ],
 
-  static ThemeData darkThemeData = ThemeData(
     useMaterial3: true,
-    //fontFamily: 'Popins',
-    brightness: Brightness.dark,
-    primaryColor: Colors.purple,
-    textTheme: AppTextTheme.darkTextTheme,
+    fontFamily: FontFamily.avenir,
+    brightness: Brightness.light,
+  );
+//----
+  static ThemeData darkThemeData = ThemeData(
+    //For custom tailored theming
+    extensions: <ThemeExtension<AppThemeExtension>>[
+      AppThemeExtension(
+        customColors: AppColorTheme.darkColorTheme,
+        customTextTheme: AppTextTheme.darkTextTheme,
+      ),
+    ],
+    useMaterial3: true,
+    fontFamily: FontFamily.avenir,
+    brightness: Brightness.light,
   );
 }

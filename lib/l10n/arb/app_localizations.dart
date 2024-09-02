@@ -98,17 +98,53 @@ abstract class AppLocalizations {
     Locale('ja')
   ];
 
-  /// No description provided for @settings.
+  /// No description provided for @onboardingTitle1.
   ///
   /// In en, this message translates to:
-  /// **'Settings'**
-  String get settings;
+  /// **'Location and destination'**
+  String get onboardingTitle1;
 
-  /// No description provided for @language.
+  /// No description provided for @onboardingMessage1.
   ///
   /// In en, this message translates to:
-  /// **'Language'**
-  String get language;
+  /// **'Your destination is at your fingerprint.Open the app and enter where you want to go '**
+  String get onboardingMessage1;
+
+  /// No description provided for @onboardingTitle2.
+  ///
+  /// In en, this message translates to:
+  /// **'Services quality'**
+  String get onboardingTitle2;
+
+  /// No description provided for @onboardingMessage2.
+  ///
+  /// In en, this message translates to:
+  /// **'You have access to the best quality services ever'**
+  String get onboardingMessage2;
+
+  /// No description provided for @onboardingTitle3.
+  ///
+  /// In en, this message translates to:
+  /// **'Be Comfortable'**
+  String get onboardingTitle3;
+
+  /// No description provided for @onboardingMessage3.
+  ///
+  /// In en, this message translates to:
+  /// **'Make sure that you will have a relax time with family'**
+  String get onboardingMessage3;
+
+  /// No description provided for @next.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get next;
+
+  /// No description provided for @proceed.
+  ///
+  /// In en, this message translates to:
+  /// **'Proceed'**
+  String get proceed;
 }
 
 class _AppLocalizationsDelegate
