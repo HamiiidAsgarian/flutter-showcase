@@ -6,8 +6,8 @@ import 'package:flutter_showcase/core/constants/app_sizes.dart';
 import 'package:flutter_showcase/core/theme/app_theme_extension.dart';
 import 'package:flutter_showcase/gen/assets.gen.dart' as ass;
 import 'package:flutter_showcase/l10n/ln10.dart';
-import 'package:flutter_showcase/onboarding/presentation/onboarding_bloc.dart';
-import 'package:flutter_showcase/onboarding/presentation/widgets/onboarding_widgets.dart';
+import 'package:flutter_showcase/features/onboarding/presentation/onboarding_bloc.dart';
+import 'package:flutter_showcase/features/onboarding/presentation/widgets/onboarding_widgets.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});
