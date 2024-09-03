@@ -6,10 +6,6 @@ import 'package:flutter_showcase/l10n/arb/app_localizations.dart';
 import 'package:flutter_showcase/onboarding/presentation/onboarding_bloc.dart';
 import 'package:flutter_showcase/onboarding/presentation/onboarding_screen.dart';
 
-void main() {
-  runApp(const MainApp());
-}
-
 class MainApp extends StatefulWidget {
   const MainApp({super.key});
 
