@@ -9,20 +9,17 @@ android {
     namespace = "com.hamiiid.flutter_showcase"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
-
     flavorDimensions "app"
     productFlavors {
-        development {
+        dev {
             dimension "app"
             applicationIdSuffix ".dev"
-            manifestPlaceholders = [appName: "[DEV] showcase"]
+            versionNameSuffix "-dev"
         }
-        production {
+        prod {
             dimension "app"
             applicationIdSuffix ""
-            manifestPlaceholders = [appName: "showcase"]
         }
-
     }
 
     compileOptions {
