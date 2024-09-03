@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_showcase/app_config.dart';
+import 'package:flutter_showcase/core/rouing/app_router.dart';
 import 'package:flutter_showcase/core/theme/theme.dart';
+import 'package:flutter_showcase/features/onboarding/presentation/onboarding_bloc.dart';
 import 'package:flutter_showcase/l10n/arb/app_localizations.dart';
-import 'package:flutter_showcase/onboarding/presentation/onboarding_bloc.dart';
-import 'package:flutter_showcase/onboarding/presentation/onboarding_screen.dart';
 
 class MainApp extends StatefulWidget {
   const MainApp({super.key});
@@ -23,14 +24,19 @@ class _MainAppState extends State<MainApp> {
         designSize: const Size(375, 812),
         minTextAdapt: true,
         fontSizeResolver: FontSizeResolvers.radius,
-        builder: (context, child) => MaterialApp(
+        builder: (context, child) => MaterialApp.router(
+          debugShowCheckedModeBanner:
+              AppConfig.appFlavor == Flavors.development,
+          //theme
           themeMode: langIndex == 0 ? ThemeMode.dark : ThemeMode.light,
           theme: AppThemeData.lightThemeData,
           darkTheme: AppThemeData.darkThemeData,
+          //localization
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           locale: AppLocalizations.supportedLocales[langIndex],
-          home: const OnBoardingScreen(),
+          //go_router
+          routerConfig: AppRouter.getRoutes(),
         ),
       ),
     );
