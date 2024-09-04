@@ -28,7 +28,7 @@ class _MainAppState extends State<MainApp> {
           debugShowCheckedModeBanner:
               AppConfig.appFlavor == Flavors.development,
           //theme
-          themeMode: langIndex == 0 ? ThemeMode.dark : ThemeMode.light,
+          themeMode: langIndex == 0 ? ThemeMode.light : ThemeMode.dark,
           theme: AppThemeData.lightThemeData,
           darkTheme: AppThemeData.darkThemeData,
           //localization

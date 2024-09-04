@@ -7,30 +7,30 @@ class AppColorTheme {
   AppColorTheme._();
 
   static CustomColors lightColorTheme = CustomColors(
-    primary1: AppColors.primary500,
-    secondary1: AppColors.secondary500,
-    dark: AppColors.dark500,
-    light: AppColors.light500,
+    primary500: AppColors.primary500,
+    secondary500: AppColors.secondary500,
+    dark500: AppColors.dark500,
+    light500: AppColors.light500,
     grey500: AppColors.grey500,
   );
   //----
   static CustomColors darkColorTheme =
-      lightColorTheme.copyWith(secondary1: AppColors.primary900);
+      lightColorTheme.copyWith(secondary500: AppColors.secondary500);
 }
 
 class CustomColors {
   CustomColors({
-    required this.primary1,
-    required this.secondary1,
-    required this.dark,
-    required this.light,
+    required this.primary500,
+    required this.secondary500,
+    required this.dark500,
+    required this.light500,
     required this.grey500,
   });
 
-  final Color primary1;
-  final Color secondary1;
-  final Color dark;
-  final Color light;
+  final Color primary500;
+  final Color secondary500;
+  final Color dark500;
+  final Color light500;
   final Color grey500;
 
   // ignore: prefer_constructors_over_static_methods
@@ -43,26 +43,26 @@ class CustomColors {
     if (b == null) return a;
 
     return CustomColors(
-      primary1: Color.lerp(a.primary1, b.primary1, t)!,
-      secondary1: Color.lerp(a.secondary1, b.secondary1, t)!,
-      dark: Color.lerp(a.dark, b.dark, t)!,
-      light: Color.lerp(a.light, b.light, t)!,
+      primary500: Color.lerp(a.primary500, b.primary500, t)!,
+      secondary500: Color.lerp(a.secondary500, b.secondary500, t)!,
+      dark500: Color.lerp(a.dark500, b.dark500, t)!,
+      light500: Color.lerp(a.light500, b.light500, t)!,
       grey500: Color.lerp(a.grey500, b.grey500, t)!,
     );
   }
 
   CustomColors copyWith({
-    Color? primary1,
-    Color? secondary1,
-    Color? dark,
-    Color? light,
+    Color? primary500,
+    Color? secondary500,
+    Color? dark500,
+    Color? light500,
     Color? grey500,
   }) {
     return CustomColors(
-      primary1: primary1 ?? this.primary1,
-      secondary1: secondary1 ?? this.secondary1,
-      dark: dark ?? this.dark,
-      light: light ?? this.light,
+      primary500: primary500 ?? this.primary500,
+      secondary500: secondary500 ?? this.secondary500,
+      dark500: dark500 ?? this.dark500,
+      light500: light500 ?? this.light500,
       grey500: grey500 ?? this.grey500,
     );
   }

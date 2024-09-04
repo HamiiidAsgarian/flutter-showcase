@@ -56,7 +56,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     final pageItems = pages(context);
     //----
     return Scaffold(
-      backgroundColor: context.colors.dark,
+      backgroundColor: context.colors.dark500,
       body: Stack(
         children: [
           PageView(
@@ -82,7 +82,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     SizedBox(height: SizeR.r12),
                     SwipeSwitch(
                       onSuccess: onSwipePage,
-                      buttonColor: context.colors.primary1,
+                      buttonColor: context.colors.primary500,
                       buttonLabel: BlocBuilder<OnBoardingBloc, OnBoardingState>(
                         buildWhen: (previous, current) =>
                             previous.stage != current.stage,
