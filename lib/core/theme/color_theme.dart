@@ -12,6 +12,9 @@ class AppColorTheme {
     dark500: AppColors.dark500,
     light500: AppColors.light500,
     grey500: AppColors.grey500,
+    backgroundWhite: AppColors.backgroundWhite,
+    backgroundGrey: AppColors.backgroundGrey,
+    greyMain: AppColors.greyMain,
   );
   //----
   static CustomColors darkColorTheme =
@@ -25,6 +28,9 @@ class CustomColors {
     required this.dark500,
     required this.light500,
     required this.grey500,
+    required this.greyMain,
+    required this.backgroundWhite,
+    required this.backgroundGrey,
   });
 
   final Color primary500;
@@ -32,6 +38,9 @@ class CustomColors {
   final Color dark500;
   final Color light500;
   final Color grey500;
+  final Color greyMain;
+  final Color backgroundWhite;
+  final Color backgroundGrey;
 
   // ignore: prefer_constructors_over_static_methods
   static CustomColors lerp(
@@ -48,6 +57,9 @@ class CustomColors {
       dark500: Color.lerp(a.dark500, b.dark500, t)!,
       light500: Color.lerp(a.light500, b.light500, t)!,
       grey500: Color.lerp(a.grey500, b.grey500, t)!,
+      greyMain: Color.lerp(a.greyMain, b.greyMain, t)!,
+      backgroundWhite: Color.lerp(a.backgroundWhite, b.backgroundWhite, t)!,
+      backgroundGrey: Color.lerp(a.backgroundGrey, b.backgroundGrey, t)!,
     );
   }
 
@@ -57,6 +69,9 @@ class CustomColors {
     Color? dark500,
     Color? light500,
     Color? grey500,
+    Color? greyMain,
+    Color? backgroundWhite,
+    Color? backgroundGrey,
   }) {
     return CustomColors(
       primary500: primary500 ?? this.primary500,
@@ -64,6 +79,9 @@ class CustomColors {
       dark500: dark500 ?? this.dark500,
       light500: light500 ?? this.light500,
       grey500: grey500 ?? this.grey500,
+      greyMain: greyMain ?? this.greyMain,
+      backgroundWhite: backgroundWhite ?? this.backgroundWhite,
+      backgroundGrey: backgroundGrey ?? this.backgroundGrey,
     );
   }
 }

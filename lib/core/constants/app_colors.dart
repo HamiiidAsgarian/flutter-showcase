@@ -13,7 +13,8 @@ sealed class AppColors {
 
   static const grey500 = Color.fromARGB(255, 165, 156, 200);
   static const greyMain = Color.fromARGB(255, 165, 165, 165);
-  static const greyBackgroung = Color.fromARGB(255, 250, 250, 250);
+  static const backgroundGrey = Color.fromARGB(255, 250, 250, 250);
 
   static const borderGreen = Color.fromARGB(255, 101, 146, 123);
+  static const backgroundWhite = Color.fromARGB(255, 255, 255, 255);
 }
