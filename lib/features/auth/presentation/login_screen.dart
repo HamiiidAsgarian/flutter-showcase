@@ -1,26 +1,37 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_showcase/core/rouing/app_router.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_showcase/core/shared/auth_form.dart';
+import 'package:flutter_showcase/features/auth/presentation/state/login_screen_bloc.dart';
+import 'package:flutter_showcase/l10n/ln10.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
-
+  const LoginScreen({
+    super.key,
+  });
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text('data'),
-          CupertinoButton(
-            child: const Text('data'),
-            onPressed: () {
-              context.goNamed(Routes.onBoarding.name);
-            },
-          ),
-        ],
-      ),
+    return AuthForm(
+      footerText: context.l10n.dontHaveAnAccount,
+      buttonText: context.l10n.login,
+      title: context.l10n.logIntoYourAccount,
+      footerButtonText: context.l10n.signup,
+      onPressedFooterButton: () {},
+      onChangedCheckbox: (newVal) {
+        context
+            .read<LoginScreeBloc>()
+            .add(ChangeRememberMe(checkboxValue: newVal));
+      },
+      onPressedButton: () {
+        context.read<LoginScreeBloc>().add(ValidateForm());
+      },
+      onEmailSaved: (savedText) {
+        context.read<LoginScreeBloc>().add(SaveEmail(savedText ?? ''));
+        return null;
+      },
+      onPasswordSaved: (savedText) {
+        context.read<LoginScreeBloc>().add(SavePassword(savedText ?? ''));
+        return null;
+      },
     );
   }
 }

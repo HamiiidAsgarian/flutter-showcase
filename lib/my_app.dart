@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_showcase/app_config.dart';
 import 'package:flutter_showcase/core/rouing/app_router.dart';
 import 'package:flutter_showcase/core/theme/theme.dart';
+import 'package:flutter_showcase/features/auth/presentation/state/login_screen_bloc.dart';
 import 'package:flutter_showcase/features/onboarding/presentation/onboarding_bloc.dart';
 import 'package:flutter_showcase/l10n/arb/app_localizations.dart';
 
@@ -18,8 +19,11 @@ class _MainAppState extends State<MainApp> {
   int langIndex = 0;
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => OnBoardingBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => OnBoardingBloc()),
+        BlocProvider(create: (context) => LoginScreeBloc()),
+      ],
       child: ScreenUtilInit(
         designSize: const Size(375, 812),
         minTextAdapt: true,
