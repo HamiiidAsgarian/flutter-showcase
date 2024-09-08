@@ -51,4 +51,6 @@ extension Xtheme on BuildContext {
 
   CustomTextTheme get styles =>
       Theme.of(this).extension<AppThemeExtension>()!.customTextTheme;
+
+  ThemeData get themeData => Theme.of(this);
 }

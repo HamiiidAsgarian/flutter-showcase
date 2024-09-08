@@ -145,6 +145,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Proceed'**
   String get proceed;
+
+  /// No description provided for @logIntoYourAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Log Into Your Account'**
+  String get logIntoYourAccount;
+
+  /// No description provided for @createYourAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Your Account'**
+  String get createYourAccount;
+
+  /// No description provided for @email.
+  ///
+  /// In en, this message translates to:
+  /// **'email'**
+  String get email;
+
+  /// No description provided for @password.
+  ///
+  /// In en, this message translates to:
+  /// **'password'**
+  String get password;
+
+  /// No description provided for @rememberMe.
+  ///
+  /// In en, this message translates to:
+  /// **'Remember me'**
+  String get rememberMe;
+
+  /// No description provided for @login.
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get login;
+
+  /// No description provided for @orContinueWith.
+  ///
+  /// In en, this message translates to:
+  /// **'or continue with'**
+  String get orContinueWith;
+
+  /// No description provided for @dontHaveAnAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t you have an account'**
+  String get dontHaveAnAccount;
+
+  /// No description provided for @dontRememberYourPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t remember your password?'**
+  String get dontRememberYourPassword;
+
+  /// No description provided for @signup.
+  ///
+  /// In en, this message translates to:
+  /// **'Signup'**
+  String get signup;
+
+  /// No description provided for @emailIsIncorrect.
+  ///
+  /// In en, this message translates to:
+  /// **'Email Is Incorrect'**
+  String get emailIsIncorrect;
+
+  /// No description provided for @passwordRequirement1.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 8 characters long'**
+  String get passwordRequirement1;
+
+  /// No description provided for @passwordRequirement2.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must contain at least one upper case letter'**
+  String get passwordRequirement2;
+
+  /// No description provided for @passwordRequirement3.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must contain at least one lower case letter'**
+  String get passwordRequirement3;
+
+  /// No description provided for @passwordRequirement4.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must contain at least one number'**
+  String get passwordRequirement4;
+
+  /// No description provided for @passwordRequirement5.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must contain at least one special character'**
+  String get passwordRequirement5;
 }
 
 class _AppLocalizationsDelegate

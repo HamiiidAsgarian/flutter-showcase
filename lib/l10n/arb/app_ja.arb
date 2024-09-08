@@ -1,4 +1,21 @@
 {
-  "next": "設定",
-  "proceed": "言語"
+  "onboardingTitle1": "現在地と目的地",
+  "onboardingMessage1": "目的地は指先で。アプリを開いて行きたい場所を入力してください。",
+  "onboardingTitle2": "サービスの品質",
+  "onboardingMessage2": "最高の品質のサービスをいつでもご利用いただけます。",
+  "onboardingTitle3": "快適に過ごしましょう",
+  "onboardingMessage3": "ご家族とリラックスした時間をお過ごしください。",
+  "next": "次へ",
+  "proceed": "進む",
+  "logIntoYourAccount": "アカウントにログイン",
+  "createYourAccount": "アカウントを作成",
+  "email": "メールアドレス",
+  "password": "パスワード",
+  "rememberMe": "ログイン状態を保持する",
+  "login": "ログイン",
+  "orContinueWith": "または以下で続ける",
+  "dontHaveAnAccount": "アカウントをお持ちでない方",
+  "dontRememberYourPassword": "パスワードを忘れた方",
+  "signup": "サインアップ",
+  "login": "ログイン"
 }
