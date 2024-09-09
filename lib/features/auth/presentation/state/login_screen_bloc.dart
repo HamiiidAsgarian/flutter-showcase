@@ -1,4 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_showcase/features/auth/data/remote/auth_data_layer.dart';
+import 'package:flutter_showcase/features/auth/data/repository/auth_repository_imp.dart';
 
 enum Stage { init, loading, success, error }
 
@@ -65,8 +68,18 @@ class LoginScreeBloc extends Bloc<LoginScreeEvent, LoginScreeState> {
     isRemembered = event.checkboxValue;
   }
 
-  void _onValidateForm(ValidateForm event, Emitter<LoginScreeState> emit) {
+  Future<void> _onValidateForm(
+    ValidateForm event,
+    Emitter<LoginScreeState> emit,
+  ) async {
     // emit(state.copyWith(stage: Stage.loading));
+    final authRemote = AuthRemote(dio: Dio(), baseUrl: 'http://localhost:3000');
+
+    final userNetweorkResponse =
+        await AuthRepositoryImpl(authRemote: authRemote)
+            .getUser(endpoint: 'api/v1/users');
+
+    print('${userNetweorkResponse.data!.id} ---');
     print('$savedEmail  $savedPass  $isRemembered');
   }
 }
