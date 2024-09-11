@@ -95,10 +95,10 @@ class NetworkService {
 @immutable
 class NetworkResponse<T> {
   const NetworkResponse({
+    required this.isSuccess,
     this.error,
     this.data,
     this.statusCode,
-    this.isSuccess,
   });
 
   /// Creates a response with an error message and status code.
@@ -131,7 +131,7 @@ class NetworkResponse<T> {
       );
 
   /// The result is a success.
-  final bool? isSuccess;
+  final bool isSuccess;
 
   /// The status code of the response.
   final int? statusCode;
