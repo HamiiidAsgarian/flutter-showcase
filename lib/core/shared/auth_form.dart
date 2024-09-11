@@ -21,6 +21,8 @@ class AuthForm extends StatefulWidget {
     required this.footerButtonText,
     required this.footerText,
     required this.buttonText,
+    this.defaultEmailText,
+    this.defaultPasswordText,
     super.key,
   });
 
@@ -35,6 +37,9 @@ class AuthForm extends StatefulWidget {
   final String footerButtonText;
   final String footerText;
 
+  final String? defaultEmailText;
+  final String? defaultPasswordText;
+
   @override
   State<AuthForm> createState() => _AuthFormState();
 }
@@ -42,6 +47,23 @@ class AuthForm extends StatefulWidget {
 class _AuthFormState extends State<AuthForm> {
   final _formKey = GlobalKey<FormState>();
   final _passwordFocusNode = FocusNode();
+
+  TextEditingController? _emailController;
+  TextEditingController? _passwordController;
+
+  @override
+  void initState() {
+    if (widget.defaultEmailText != null) {
+      _emailController = TextEditingController();
+      _emailController!.text = widget.defaultEmailText!;
+    }
+    if (widget.defaultPasswordText != null) {
+      _passwordController = TextEditingController();
+      _passwordController!.text = widget.defaultPasswordText!;
+    }
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +87,7 @@ class _AuthFormState extends State<AuthForm> {
                 child: Column(
                   children: [
                     PrefixedSuffixedTextFromField(
+                      controller: _emailController,
                       onFieldSubmitted: (_) {
                         _passwordFocusNode.requestFocus();
                         return null;
@@ -88,6 +111,7 @@ class _AuthFormState extends State<AuthForm> {
                       height: SizeR.r12,
                     ),
                     PrefixedSuffixedTextFromField(
+                      controller: _passwordController,
                       focusNode: _passwordFocusNode,
                       isObsecured: true,
                       validator: (text) {

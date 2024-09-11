@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_showcase/app_config.dart';
 import 'package:flutter_showcase/core/rouing/app_router.dart';
 import 'package:flutter_showcase/core/theme/theme.dart';
-import 'package:flutter_showcase/features/auth/presentation/state/login_screen_bloc.dart';
+import 'package:flutter_showcase/features/auth/presentation/login_screen_bloc.dart';
 import 'package:flutter_showcase/features/onboarding/presentation/onboarding_bloc.dart';
 import 'package:flutter_showcase/l10n/arb/app_localizations.dart';
 
