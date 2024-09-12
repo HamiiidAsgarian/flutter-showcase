@@ -25,6 +25,14 @@ class AuthLocalDataSource implements IAuthLocalDataSource {
     await _secureStorageService.setTokens(token);
   }
 
+  Future<void> saveRememberMe({required bool value}) async {
+    await _sharedPreferencesService.setRememberMe(value: value);
+  }
+
+  Future<bool> getRememberMe() async {
+    return await _sharedPreferencesService.getRememberMe() ?? false;
+  }
+
   @override
   Future<TokenModel?> getToken() async {
     return _secureStorageService.getToken();

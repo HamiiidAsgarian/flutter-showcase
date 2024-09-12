@@ -1,49 +1,64 @@
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_showcase/core/network/network_service.dart';
 import 'package:flutter_showcase/features/auth/data/local/auth_local_data_source.dart';
+import 'package:flutter_showcase/features/auth/data/models/signup_res_model.dart';
 import 'package:flutter_showcase/features/auth/data/models/token_model.dart';
 import 'package:flutter_showcase/features/auth/data/models/user_model.dart';
 import 'package:flutter_showcase/features/auth/data/remote/auth_remote_data_source.dart';
+import 'package:flutter_showcase/features/auth/domain/models/signup_res.dart';
 import 'package:flutter_showcase/features/auth/domain/models/token.dart';
 import 'package:flutter_showcase/features/auth/domain/models/user.dart';
 import 'package:flutter_showcase/features/auth/domain/repository/auth_repository.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthRepository implements IAuthRepository {
   AuthRepository({
     required bool rememberMe,
     required AuthRemoteDataSource authRemote,
-    required FlutterSecureStorage storageSecure,
-    required SharedPreferences storage,
+    // required FlutterSecureStorage storageSecure,
+    // required SharedPreferences storage,
+    required AuthLocalDataSource authLocalDataSource,
   })  : _authRemote = authRemote,
-        _storageSecure = storageSecure,
-        _storage = storage,
-        _rememberMe = rememberMe;
+        // _storageSecure = storageSecure,
+        // _storage = storage,
+        _rememberMe = rememberMe,
+        _authLocalDataSource = authLocalDataSource;
 
   final AuthRemoteDataSource _authRemote;
-  final FlutterSecureStorage _storageSecure;
-  final SharedPreferences _storage;
+  // final FlutterSecureStorage _storageSecure;
+  // final SharedPreferences _storage;
   final bool _rememberMe;
+  final AuthLocalDataSource _authLocalDataSource;
 
   @override
-  // Future<NetworkResponse<User>> getUser({
-  //   required String endpoint,
-  //   required User data,
-  // }) async {
-  // final convertedUserModel = data.toUserModel();
+  Future<NetworkResponse<SignUpRes>> signUp({
+    required String endpoint,
+    required User data,
+  }) async {
+    final convertedUserModel = data.toUserModel();
 
-  // final userModeledNetworkResponse =
-  // await _authRemote.getUser(endpoint: endpoint, data: convertedUserModel);
+    final userModeledNetworkResponse =
+        await _authRemote.signUp(endpoint: endpoint, data: convertedUserModel);
 
-  // return NetworkResponse<User>(
-  //   //make [User] out of [UserModel]
-  //   data: userModeledNetworkResponse.data?.toUser(),
-  //   error: userModeledNetworkResponse.error,
-  //   isSuccess: userModeledNetworkResponse.isSuccess,
-  //   statusCode: userModeledNetworkResponse.statusCode,
-  // );
-  // }
+    // final storages = AuthLocalDataSource(
+    //   secureStorage: _storageSecure,
+    //   sharedPreferences: _storage,
+    // );
 
+    if (_rememberMe) {
+      await _authLocalDataSource.saveUser(convertedUserModel);
+      await _authLocalDataSource.saveRememberMe(value: true);
+    } else {
+      await _authLocalDataSource.saveRememberMe(value: false);
+    }
+
+    return NetworkResponse<SignUpRes>(
+      data: userModeledNetworkResponse.data?.toSignUpRes(),
+      error: userModeledNetworkResponse.error,
+      isSuccess: userModeledNetworkResponse.isSuccess,
+      statusCode: userModeledNetworkResponse.statusCode,
+    );
+  }
+
+//----
   @override
   Future<NetworkResponse<Token>> login({
     required String endpoint,
@@ -57,15 +72,18 @@ class AuthRepository implements IAuthRepository {
     if (userModeledNetworkResponse.isSuccess) {
       final tokenModel = userModeledNetworkResponse.data;
 
-      final storages = AuthLocalDataSource(
-        secureStorage: _storageSecure,
-        sharedPreferences: _storage,
-      );
+      // final storages = AuthLocalDataSource(
+      //   secureStorage: _storageSecure,
+      //   sharedPreferences: _storage,
+      // );
 
-      await storages.saveToken(tokenModel!);
+      await _authLocalDataSource.saveToken(tokenModel!);
 
       if (_rememberMe) {
-        await storages.saveUser(convertedUserModel);
+        await _authLocalDataSource.saveUser(convertedUserModel);
+        await _authLocalDataSource.saveRememberMe(value: true);
+      } else {
+        await _authLocalDataSource.saveRememberMe(value: false);
       }
     }
 
@@ -82,12 +100,12 @@ class AuthRepository implements IAuthRepository {
 
   @override
   Future<User?> getLocalData() async {
-    final storages = AuthLocalDataSource(
-      secureStorage: _storageSecure,
-      sharedPreferences: _storage,
-    );
+    // final storages = AuthLocalDataSource(
+    //   secureStorage: _storageSecure,
+    //   sharedPreferences: _storage,
+    // );
 
-    final localUser = await storages.getUser();
+    final localUser = await _authLocalDataSource.getUser();
 
     if (localUser != null) {
       final convertedUserModel = localUser.toUser();
@@ -95,6 +113,25 @@ class AuthRepository implements IAuthRepository {
     }
     return null;
   }
+
+  //----
+  @override
+  Future<bool> getLocalRememberMe() async {
+    final localUser = await _authLocalDataSource.getRememberMe();
+    return localUser;
+  }
+}
+
+//----
+extension SignUpresModelToSignUpRes on SignUpResModel {
+  SignUpRes toSignUpRes() => SignUpRes(success: success, message: message);
+}
+
+extension SignUpResToSignUpResModel on SignUpRes {
+  SignUpResModel toSignUpResrModel() => SignUpResModel(
+        success: success,
+        message: message,
+      );
 }
 
 //----

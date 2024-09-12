@@ -18,11 +18,12 @@ class AuthForm extends StatefulWidget {
     required this.onEmailSaved,
     required this.onPasswordSaved,
     required this.title,
+    required this.buttonText,
     required this.footerButtonText,
     required this.footerText,
-    required this.buttonText,
     this.defaultEmailText,
     this.defaultPasswordText,
+    this.rememberMeDefault = false,
     super.key,
   });
 
@@ -39,6 +40,7 @@ class AuthForm extends StatefulWidget {
 
   final String? defaultEmailText;
   final String? defaultPasswordText;
+  final bool rememberMeDefault;
 
   @override
   State<AuthForm> createState() => _AuthFormState();
@@ -132,6 +134,7 @@ class _AuthFormState extends State<AuthForm> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CheckboxTexed(
+                          isChecked: widget.rememberMeDefault,
                           onChanged: widget.onChangedCheckbox,
                         ),
                         Text(

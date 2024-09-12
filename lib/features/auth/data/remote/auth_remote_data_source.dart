@@ -1,10 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_showcase/core/network/network_service.dart';
+import 'package:flutter_showcase/features/auth/data/models/signup_res_model.dart';
 import 'package:flutter_showcase/features/auth/data/models/token_model.dart';
 import 'package:flutter_showcase/features/auth/data/models/user_model.dart';
 
 abstract class IAuthRemoteDataSource {
-  Future<NetworkResponse<UserModel>> getUser({
+  Future<NetworkResponse<SignUpResModel>> signUp({
     required String endpoint,
     required UserModel data,
   });
@@ -26,17 +27,17 @@ class AuthRemoteDataSource implements IAuthRemoteDataSource {
   final String _baseUrl;
 
   @override
-  Future<NetworkResponse<UserModel>> getUser({
+  Future<NetworkResponse<SignUpResModel>> signUp({
     required String endpoint,
     required UserModel data,
   }) async {
     final response = await NetworkService(
       dio: _dio,
       baseUrl: _baseUrl,
-    ).post<UserModel>(
+    ).post<SignUpResModel>(
       data: data.toJson(),
       endpoint: endpoint,
-      fromJson: UserModel.fromJson,
+      fromJson: SignUpResModel.fromJson,
     );
 
     return response;
