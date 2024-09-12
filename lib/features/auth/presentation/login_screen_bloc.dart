@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_showcase/features/auth/data/local/auth_local_data_source.dart';
 import 'package:flutter_showcase/features/auth/data/remote/auth_remote_data_source.dart';
 import 'package:flutter_showcase/features/auth/data/repository/auth_repository_imp.dart';
 import 'package:flutter_showcase/features/auth/domain/models/user.dart';
@@ -36,23 +37,28 @@ class GetUserDataFromLocal extends LoginScreeEvent {
 class LoginScreeState {
   LoginScreeState.init()
       : stage = Stage.init,
-        user = null;
+        user = null,
+        rememberMe = false;
 
   const LoginScreeState._({
     required this.stage,
     this.user,
+    this.rememberMe = false,
   });
 
   final Stage stage;
   final User? user;
+  final bool rememberMe;
 
   LoginScreeState copyWith({
     Stage? stage,
     User? user,
+    bool? rememberMe,
   }) =>
       LoginScreeState._(
         stage: stage ?? this.stage,
         user: user ?? this.user,
+        rememberMe: rememberMe ?? this.rememberMe,
       );
 }
 
@@ -88,16 +94,20 @@ class LoginScreeBloc extends Bloc<LoginScreeEvent, LoginScreeState> {
     ValidateForm event,
     Emitter<LoginScreeState> emit,
   ) async {
-    final authRemote =
-        AuthRemoteDataSource(dio: Dio(), baseUrl: 'http://localhost:3000');
-
     final user = User(id: 0, email: savedEmail!, password: savedPass!);
 
+    final remoteDataSource =
+        AuthRemoteDataSource(dio: Dio(), baseUrl: 'http://localhost:3000');
+
+    final localDataSource = AuthLocalDataSource(
+      secureStorage: const FlutterSecureStorage(),
+      sharedPreferences: await SharedPreferences.getInstance(),
+    );
+
     final userNetweorkResponse = await AuthRepository(
-      authRemote: authRemote,
-      storage: await SharedPreferences.getInstance(),
+      authLocalDataSource: localDataSource,
+      authRemote: remoteDataSource,
       rememberMe: isRemembered ?? false,
-      storageSecure: const FlutterSecureStorage(),
     ).login(endpoint: 'api/v1/login', data: user);
 
 //TODO: also save isRemembered inside the local
@@ -109,15 +119,23 @@ class LoginScreeBloc extends Bloc<LoginScreeEvent, LoginScreeState> {
     GetUserDataFromLocal event,
     Emitter<LoginScreeState> emit,
   ) async {
-    final authRemote =
+    //TODO make sure to get the dependencies(except isRemmberd from outside)
+    final remoteDataSource =
         AuthRemoteDataSource(dio: Dio(), baseUrl: 'http://localhost:3000');
 
-    final localUser = await AuthRepository(
-      authRemote: authRemote,
-      storage: await SharedPreferences.getInstance(),
-      rememberMe: true,
-      storageSecure: const FlutterSecureStorage(),
-    ).getLocalData();
-    emit(state.copyWith(user: localUser));
+    final localDataSource = AuthLocalDataSource(
+      secureStorage: const FlutterSecureStorage(),
+      sharedPreferences: await SharedPreferences.getInstance(),
+    );
+
+    final localUser = AuthRepository(
+      authRemote: remoteDataSource,
+      authLocalDataSource: localDataSource,
+      rememberMe: false,
+    );
+    final localUserRes = await localUser.getLocalData();
+    final localrememberMeRes = await localUser.getLocalRememberMe();
+
+    emit(state.copyWith(user: localUserRes, rememberMe: localrememberMeRes));
   }
 }

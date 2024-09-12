@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_showcase/core/rouing/app_router.dart';
 import 'package:flutter_showcase/core/shared/auth_form.dart';
 import 'package:flutter_showcase/features/auth/presentation/login_screen_bloc.dart';
 import 'package:flutter_showcase/l10n/ln10.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({
@@ -27,13 +29,16 @@ class _LoginScreenState extends State<LoginScreen> {
       builder: (context, state) {
         return AuthForm(
           key: UniqueKey(),
+          rememberMeDefault: state.rememberMe,
           defaultEmailText: state.user?.email,
           defaultPasswordText: state.user?.password,
           footerText: context.l10n.dontHaveAnAccount,
           buttonText: context.l10n.login,
           title: context.l10n.logIntoYourAccount,
           footerButtonText: context.l10n.signup,
-          onPressedFooterButton: () {},
+          onPressedFooterButton: () {
+            context.replaceNamed(Routes.singup.name);
+          },
           onChangedCheckbox: (newVal) {
             context
                 .read<LoginScreeBloc>()
