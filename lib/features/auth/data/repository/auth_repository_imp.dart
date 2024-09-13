@@ -9,41 +9,42 @@ import 'package:flutter_showcase/features/auth/domain/models/token.dart';
 import 'package:flutter_showcase/features/auth/domain/models/user.dart';
 import 'package:flutter_showcase/features/auth/domain/repository/auth_repository.dart';
 
+/// Authentication Repository implementation.
+///
+/// This class implements the [IAuthRepository] interface.
+/// It provides the authentication functionality using the
+/// [AuthRemoteDataSource] and [AuthLocalDataSource] classes.
 class AuthRepository implements IAuthRepository {
+  /// Constructor.
+  ///
+  /// It takes an [AuthRemoteDataSource] and an [AuthLocalDataSource]
+  /// as parameters.
   AuthRepository({
-    required bool rememberMe,
     required AuthRemoteDataSource authRemote,
-    // required FlutterSecureStorage storageSecure,
-    // required SharedPreferences storage,
     required AuthLocalDataSource authLocalDataSource,
   })  : _authRemote = authRemote,
-        // _storageSecure = storageSecure,
-        // _storage = storage,
-        _rememberMe = rememberMe,
         _authLocalDataSource = authLocalDataSource;
 
   final AuthRemoteDataSource _authRemote;
-  // final FlutterSecureStorage _storageSecure;
-  // final SharedPreferences _storage;
-  final bool _rememberMe;
   final AuthLocalDataSource _authLocalDataSource;
 
+  /// Signs up a user.
+  ///
+  /// It takes a [String] endpoint, a [User] data and a [bool] rememberMe
+  ///  as parameters.
+  /// It returns a [NetworkResponse] containing a [SignUpRes] object.
   @override
   Future<NetworkResponse<SignUpRes>> signUp({
     required String endpoint,
     required User data,
+    required bool rememberMe,
   }) async {
     final convertedUserModel = data.toUserModel();
 
     final userModeledNetworkResponse =
         await _authRemote.signUp(endpoint: endpoint, data: convertedUserModel);
 
-    // final storages = AuthLocalDataSource(
-    //   secureStorage: _storageSecure,
-    //   sharedPreferences: _storage,
-    // );
-
-    if (_rememberMe) {
+    if (rememberMe) {
       await _authLocalDataSource.saveUser(convertedUserModel);
       await _authLocalDataSource.saveRememberMe(value: true);
     } else {
@@ -58,11 +59,16 @@ class AuthRepository implements IAuthRepository {
     );
   }
 
-//----
+  /// Logs in a user.
+  ///
+  /// It takes a [String] endpoint, a [User] data and a [bool] rememberMe
+  ///  as parameters.
+  /// It returns a [NetworkResponse] containing a [Token] object.
   @override
   Future<NetworkResponse<Token>> login({
     required String endpoint,
     required User data,
+    required bool rememberMe,
   }) async {
     final convertedUserModel = data.toUserModel();
 
@@ -72,14 +78,9 @@ class AuthRepository implements IAuthRepository {
     if (userModeledNetworkResponse.isSuccess) {
       final tokenModel = userModeledNetworkResponse.data;
 
-      // final storages = AuthLocalDataSource(
-      //   secureStorage: _storageSecure,
-      //   sharedPreferences: _storage,
-      // );
-
       await _authLocalDataSource.saveToken(tokenModel!);
 
-      if (_rememberMe) {
+      if (rememberMe) {
         await _authLocalDataSource.saveUser(convertedUserModel);
         await _authLocalDataSource.saveRememberMe(value: true);
       } else {
@@ -88,7 +89,6 @@ class AuthRepository implements IAuthRepository {
     }
 
     return NetworkResponse<Token>(
-      //make [Token] out of [TokenModel]
       data: userModeledNetworkResponse.data?.toToken(),
       error: userModeledNetworkResponse.error,
       isSuccess: userModeledNetworkResponse.isSuccess,
@@ -96,15 +96,11 @@ class AuthRepository implements IAuthRepository {
     );
   }
 
-  //----
-
+  /// Gets the local user data.
+  ///
+  /// It returns a [User] object or null if no local user data is found.
   @override
   Future<User?> getLocalData() async {
-    // final storages = AuthLocalDataSource(
-    //   secureStorage: _storageSecure,
-    //   sharedPreferences: _storage,
-    // );
-
     final localUser = await _authLocalDataSource.getUser();
 
     if (localUser != null) {
@@ -114,7 +110,10 @@ class AuthRepository implements IAuthRepository {
     return null;
   }
 
-  //----
+  /// Gets the local remember me value.
+  ///
+  /// It returns a [bool] value indicating whether the user wants to remember
+  /// the login credentials or not.
   @override
   Future<bool> getLocalRememberMe() async {
     final localUser = await _authLocalDataSource.getRememberMe();
@@ -122,7 +121,8 @@ class AuthRepository implements IAuthRepository {
   }
 }
 
-//----
+//---------------------------------Adaptors-------------------------------------
+
 extension SignUpresModelToSignUpRes on SignUpResModel {
   SignUpRes toSignUpRes() => SignUpRes(success: success, message: message);
 }

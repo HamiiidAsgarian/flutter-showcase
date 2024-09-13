@@ -1,11 +1,7 @@
-import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:flutter_showcase/features/auth/data/local/auth_local_data_source.dart';
-import 'package:flutter_showcase/features/auth/data/remote/auth_remote_data_source.dart';
-import 'package:flutter_showcase/features/auth/data/repository/auth_repository_imp.dart';
+import 'package:flutter_showcase/core/config/endpoints.dart';
 import 'package:flutter_showcase/features/auth/domain/models/user.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_showcase/features/auth/domain/repository/auth_repository.dart';
 
 enum Stage { init, loading, success, error }
 
@@ -64,13 +60,17 @@ class SignUpScreeState {
 
 //----bloc
 class SignUpScreeBloc extends Bloc<SignUpScreeEvent, SignUpScreeState> {
-  SignUpScreeBloc() : super(SignUpScreeState.init()) {
+  SignUpScreeBloc({required IAuthRepository authRepository})
+      : _authRepository = authRepository,
+        super(SignUpScreeState.init()) {
     on<ValidateForm>(_onValidateForm);
     on<SaveEmail>(_onSaveEmail);
     on<SavePassword2>(_onSavePassword);
     on<ChangeRememberMe>(_onChangeRememberMe);
     on<GetUserDataFromLocal>(_onGetUserDataFromLocal);
   }
+
+  final IAuthRepository _authRepository;
   String? savedEmail;
   String? savedPass;
   bool? isRemembered;
@@ -94,26 +94,17 @@ class SignUpScreeBloc extends Bloc<SignUpScreeEvent, SignUpScreeState> {
     ValidateForm event,
     Emitter<SignUpScreeState> emit,
   ) async {
-    final remoteDataSource =
-        AuthRemoteDataSource(dio: Dio(), baseUrl: 'http://localhost:3000');
-
     final user = User(id: 0, email: savedEmail!, password: savedPass!);
 
-    final localDataSource = AuthLocalDataSource(
-      secureStorage: const FlutterSecureStorage(),
-      sharedPreferences: await SharedPreferences.getInstance(),
-    );
-
-    final userNetweorkResponse = await AuthRepository(
-      authLocalDataSource: localDataSource,
-      authRemote: remoteDataSource,
+    final userNetweorkResponse = await _authRepository.signUp(
+      endpoint: Endpoints.signup,
+      data: user,
       rememberMe: isRemembered ?? false,
-    ).signUp(endpoint: 'api/v1/signup', data: user);
+    );
 
     if (userNetweorkResponse.isSuccess) {
       emit(state.copyWith(stage: Stage.success));
     }
-//TODO: also save isRemembered inside the local
   }
 
   // ----
@@ -121,20 +112,8 @@ class SignUpScreeBloc extends Bloc<SignUpScreeEvent, SignUpScreeState> {
     GetUserDataFromLocal event,
     Emitter<SignUpScreeState> emit,
   ) async {
-    //TODO make sure to get the dependencies(except isRemmberd from outside)
-    final remoteDataSource =
-        AuthRemoteDataSource(dio: Dio(), baseUrl: 'http://localhost:3000');
+    final localUser = _authRepository;
 
-    final localDataSource = AuthLocalDataSource(
-      secureStorage: const FlutterSecureStorage(),
-      sharedPreferences: await SharedPreferences.getInstance(),
-    );
-
-    final localUser = AuthRepository(
-      authRemote: remoteDataSource,
-      authLocalDataSource: localDataSource,
-      rememberMe: false,
-    );
     final localrememberMeRes = await localUser.getLocalRememberMe();
 
     emit(state.copyWith(rememberMe: localrememberMeRes));
