@@ -1,25 +1,27 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 enum Flavors { development, production }
 
 class AppConfig {
   static Flavors appFlavor = Flavors.development;
 
+  static Future<void> initialize() async {
+    await dotenv.load(
+      fileName: 'env/${appFlavor.name}.env',
+    ); // Load environment based on flavor
+  }
+
   static String get title {
     switch (appFlavor) {
       case Flavors.development:
         return 'dev';
-
       case Flavors.production:
         return 'prod';
     }
   }
 
   static String get baseUrl {
-    switch (appFlavor) {
-      case Flavors.development:
-        return 'https://dev.domain.com/api/v1';
-
-      case Flavors.production:
-        return 'https://domain.com/api/v1';
-    }
+    // Access base URL from environment variable
+    return dotenv.env['BASE_URL']!;
   }
 }
