@@ -85,4 +85,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get passwordRequirement5 =>
       'Password must contain at least one special character';
+
+  @override
+  String get successMessage => 'success!';
+
+  @override
+  String get failMessage => 'Autentication failed!';
 }

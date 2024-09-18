@@ -28,6 +28,8 @@
   "passwordRequirement2": "Password must contain at least one upper case letter",
   "passwordRequirement3": "Password must contain at least one lower case letter",
   "passwordRequirement4": "Password must contain at least one number",
-  "passwordRequirement5": "Password must contain at least one special character"
+  "passwordRequirement5": "Password must contain at least one special character",
+  "successMessage":  "success!",
+  "failMessage": "Autentication failed!"
 
 }

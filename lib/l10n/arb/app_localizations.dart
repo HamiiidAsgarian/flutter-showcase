@@ -241,6 +241,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Password must contain at least one special character'**
   String get passwordRequirement5;
+
+  /// No description provided for @successMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'success!'**
+  String get successMessage;
+
+  /// No description provided for @failMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Autentication failed!'**
+  String get failMessage;
 }
 
 class _AppLocalizationsDelegate
