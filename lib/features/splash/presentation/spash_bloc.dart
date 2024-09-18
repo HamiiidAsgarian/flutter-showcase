@@ -2,11 +2,13 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_showcase/features/auth/domain/models/token.dart';
 import 'package:flutter_showcase/features/auth/domain/repository/auth_repository.dart';
+import 'package:flutter_showcase/features/onboarding/domain/repository/onboarding_repository_i.dart';
 
 enum SplashStage {
   init,
   loading,
-  noToken,
+  firstTime,
+
   invalidToken,
   validToken,
 }
@@ -38,40 +40,58 @@ class SplashState extends Equatable {
 
 //----bloc
 class SplashBloc extends Bloc<SplashEvent, SplashState> {
-  SplashBloc({required IAuthRepository authRepository})
-      : _authRepository = authRepository,
+  SplashBloc({
+    required IAuthRepository authRepository,
+    required IOnboardingRepository onBoardingRepository,
+  })  : _onBoardingRepository = onBoardingRepository,
+        _authRepository = authRepository,
         super(SplashState.init()) {
     on<LoadUserStorage>(_onLoadUserStorage);
     on<RemoveLocals>(_onRemoveLocals);
   }
   final IAuthRepository _authRepository;
+  final IOnboardingRepository _onBoardingRepository;
   Future<void> _onLoadUserStorage(
     LoadUserStorage event,
     Emitter<SplashState> emit,
   ) async {
     emit(state.copyWith(stage: SplashStage.loading));
-    final localToken = await _authRepository.authenticateToken(
+    final authTokenRes = await _authRepository.authenticateToken(
       endpoint: 'api/v1/token/validate',
     );
+
+    final isOnboarded = await _onBoardingRepository.getIsOnboarded();
+
     await Future<void>.delayed(const Duration(seconds: 1));
-    if (localToken != null && localToken.isSuccess) {
-      if (localToken.data!.success) {
+    if (authTokenRes != null && authTokenRes.isSuccess) {
+      if (authTokenRes.data!.isValid) {
+        //if server says the token is valid (lead to the home screen)
         emit(
           state.copyWith(
             stage: SplashStage.validToken,
-            // token: localToken.data?.token,
           ),
         );
       } else {
+        //if server says the token is NOT valid (lead to the login screen)
+
         emit(
           state.copyWith(
             stage: SplashStage.invalidToken,
-            // token: localToken.data?.token,
           ),
         );
       }
     } else {
-      emit(state.copyWith(stage: SplashStage.noToken));
+      if (!isOnboarded) {
+        //if user is not onboarded at all (lead to the onboarding screen)
+        emit(state.copyWith(stage: SplashStage.firstTime));
+      } else {
+        //No token found and has onboarded (lead to the login screen)
+        emit(
+          state.copyWith(
+            stage: SplashStage.invalidToken,
+          ),
+        );
+      }
     }
   }
 
@@ -81,7 +101,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     Emitter<SplashState> emit,
   ) async {
     emit(state.copyWith(stage: SplashStage.loading));
-    await _authRepository.removeTokens();
+    await _authRepository.removeLocals();
     await Future<void>.delayed(const Duration(seconds: 1));
 
     emit(state.copyWith(stage: SplashStage.init));
