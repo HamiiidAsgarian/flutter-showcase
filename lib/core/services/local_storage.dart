@@ -1,6 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-enum LocalStorageData { email, rememberMe }
+enum LocalStorageData { email, rememberMe, isOnboarded }
 
 class LocalStorageService {
   // Constructor with dependency injection for better testability
@@ -23,6 +23,15 @@ class LocalStorageService {
 
   Future<bool?> getRememberMe() async {
     return _prefs.getBool(LocalStorageData.rememberMe.name);
+  }
+
+  //----onboarding
+  Future<void> setIsOnboarded({required bool value}) async {
+    await _prefs.setBool(LocalStorageData.isOnboarded.name, value);
+  }
+
+  Future<bool?> getIsOnboarded() async {
+    return _prefs.getBool(LocalStorageData.isOnboarded.name);
   }
 
   // Optional: Clear data
