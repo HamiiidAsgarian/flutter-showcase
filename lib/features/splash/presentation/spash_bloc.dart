@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_showcase/core/config/endpoints.dart';
 import 'package:flutter_showcase/features/auth/domain/models/token.dart';
 import 'package:flutter_showcase/features/auth/domain/repository/auth_repository.dart';
 import 'package:flutter_showcase/features/onboarding/domain/repository/onboarding_repository_i.dart';
@@ -57,7 +58,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
   ) async {
     emit(state.copyWith(stage: SplashStage.loading));
     final authTokenRes = await _authRepository.authenticateToken(
-      endpoint: 'api/v1/token/validate',
+      endpoint: Endpoints.tokenValidation,
     );
 
     final isOnboarded = await _onBoardingRepository.getIsOnboarded();
