@@ -1,4 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_showcase/core/network/network_service.dart';
+import 'package:flutter_showcase/features/auth/data/models/token_validation_model.dart';
+import 'package:flutter_showcase/features/auth/data/repository/auth_repository_imp.dart';
 import 'package:flutter_showcase/features/auth/domain/models/signup_res.dart';
 import 'package:flutter_showcase/features/auth/domain/models/token.dart';
 import 'package:flutter_showcase/features/auth/domain/models/user.dart';
@@ -59,4 +62,14 @@ abstract class IAuthRepository {
   /// Returns a boolean value indicating whether the user wants to be
   /// remembered or not.
   Future<bool> getLocalRememberMe();
+
+  /// Retrieves the locally stored tokens.
+  ///
+  /// Returns a [Token] object with the locally stored access and refresh
+  /// tokens. If no tokens are stored, returns null.
+  Future<NetworkResponse<TokenValidationResponseModel>?> authenticateToken({
+    required String endpoint,
+  });
+
+  Future<void> removeLocals();
 }

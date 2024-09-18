@@ -2,6 +2,7 @@ import 'package:flutter_showcase/core/network/network_service.dart';
 import 'package:flutter_showcase/features/auth/data/local/auth_local_data_source.dart';
 import 'package:flutter_showcase/features/auth/data/models/signup_res_model.dart';
 import 'package:flutter_showcase/features/auth/data/models/token_model.dart';
+import 'package:flutter_showcase/features/auth/data/models/token_validation_model.dart';
 import 'package:flutter_showcase/features/auth/data/models/user_model.dart';
 import 'package:flutter_showcase/features/auth/data/remote/auth_remote_data_source.dart';
 import 'package:flutter_showcase/features/auth/domain/models/signup_res.dart';
@@ -118,6 +119,36 @@ class AuthRepository implements IAuthRepository {
   Future<bool> getLocalRememberMe() async {
     final localUser = await _authLocalDataSource.getRememberMe();
     return localUser;
+  }
+
+  // @override
+  Future<TokenModel?> _getLocalTokens() async {
+    final localToken = await _authLocalDataSource.getToken();
+
+    return localToken;
+  }
+
+  @override
+  Future<void> removeLocals() async {
+    await _authLocalDataSource.removeLocals();
+  }
+
+  @override
+  Future<NetworkResponse<TokenValidationResponseModel>?> authenticateToken({
+    required String endpoint,
+  }) async {
+    final localToken = await _getLocalTokens();
+
+    if (localToken == null) {
+      return null;
+    }
+
+    final resToken = await _authRemote.validateTokens(
+      endpoint: endpoint,
+      data: localToken,
+    );
+
+    return resToken;
   }
 }
 
