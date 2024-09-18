@@ -70,9 +70,9 @@ class _AuthFormState extends State<AuthForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: context.colors.backgroundWhite,
+      backgroundColor: context.colorz.backgroundWhite,
       appBar: AppBar(
-        backgroundColor: context.colors.backgroundWhite,
+        backgroundColor: context.colorz.backgroundWhite,
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: SizeR.r16),
@@ -182,14 +182,14 @@ class _AuthFormState extends State<AuthForm> {
                         Text(
                           widget.footerText,
                           style: context.styles.b1
-                              .copyWith(color: context.colors.greyMain),
+                              .copyWith(color: context.colorz.greyMain),
                         ),
                         TextButton(
                           onPressed: widget.onPressedFooterButton,
                           child: Text(
                             widget.footerButtonText,
                             style: context.styles.b1.copyWith(
-                              color: context.colors.primary500,
+                              color: context.colorz.primary500,
                             ),
                           ),
                         ),

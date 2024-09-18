@@ -17,7 +17,7 @@ class ORdivider extends StatelessWidget {
           child: Text(
             'or continuer with',
             style: context.styles.b1.copyWith(
-              color: context.colors.greyMain,
+              color: context.colorz.greyMain,
             ),
           ),
         ),

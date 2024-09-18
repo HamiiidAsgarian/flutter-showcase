@@ -60,8 +60,8 @@ class _PrefixedSuffixedTextFromFieldState
         setState(() {});
 
         if (value) {
-          hintColor = context.colors.primary500;
-          fillColor = context.colors.primary500.withOpacity(.1);
+          hintColor = context.colorz.primary500;
+          fillColor = context.colorz.primary500.withOpacity(.1);
         } else {
           hintColor = context.themeData.inputDecorationTheme.hintStyle!.color;
           fillColor = context.themeData.inputDecorationTheme.fillColor;
@@ -138,8 +138,8 @@ class _MyTextFromFieldState extends State<MyTextFromField> {
         setState(() {});
 
         if (value) {
-          hintColor = context.colors.primary500;
-          fillColor = context.colors.primary500.withOpacity(.1);
+          hintColor = context.colorz.primary500;
+          fillColor = context.colorz.primary500.withOpacity(.1);
         } else {
           hintColor = context.themeData.inputDecorationTheme.hintStyle!.color;
           fillColor = context.themeData.inputDecorationTheme.fillColor;
