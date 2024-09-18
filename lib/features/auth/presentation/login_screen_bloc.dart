@@ -93,6 +93,8 @@ class LoginScreeBloc extends Bloc<LoginScreeEvent, LoginScreeState> {
     ValidateForm event,
     Emitter<LoginScreeState> emit,
   ) async {
+    emit(state.copyWith(stage: Stage.loading));
+
     final user = User(id: 0, email: savedEmail!, password: savedPass!);
 
     final userNetweorkResponse = await _authRepository.login(
@@ -100,7 +102,12 @@ class LoginScreeBloc extends Bloc<LoginScreeEvent, LoginScreeState> {
       data: user,
       rememberMe: isRemembered ?? false,
     );
-    print(userNetweorkResponse);
+
+    if (userNetweorkResponse.isSuccess) {
+      emit(state.copyWith(stage: Stage.success));
+    } else {
+      emit(state.copyWith(stage: Stage.error));
+    }
   }
 
   //----

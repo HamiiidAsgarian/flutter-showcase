@@ -6,7 +6,7 @@ import 'package:flutter_showcase/features/auth/presentation/login_screen_bloc.da
 import 'package:flutter_showcase/features/auth/presentation/signup_screen.dart';
 import 'package:flutter_showcase/features/auth/presentation/signup_screen_bloc.dart';
 import 'package:flutter_showcase/features/home/home_screen.dart';
-import 'package:flutter_showcase/features/onboarding/domain/repository/auth_repository.dart';
+import 'package:flutter_showcase/features/onboarding/domain/repository/onboarding_repository_i.dart';
 import 'package:flutter_showcase/features/onboarding/presentation/onboarding_bloc.dart';
 import 'package:flutter_showcase/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:flutter_showcase/features/splash/presentation/spash_bloc.dart';
