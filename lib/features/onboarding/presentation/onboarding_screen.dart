@@ -3,11 +3,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_showcase/core/constants/app_sizes.dart';
+import 'package:flutter_showcase/core/rouing/app_router.dart';
 import 'package:flutter_showcase/core/theme/app_theme_extension.dart';
 import 'package:flutter_showcase/features/onboarding/presentation/onboarding_bloc.dart';
 import 'package:flutter_showcase/features/onboarding/presentation/widgets/onboarding_widgets.dart';
 import 'package:flutter_showcase/gen/assets.gen.dart' as ass;
 import 'package:flutter_showcase/l10n/ln10.dart';
+import 'package:go_router/go_router.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});
@@ -56,7 +58,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     final pageItems = pages(context);
     //----
     return Scaffold(
-      backgroundColor: context.colors.dark500,
+      backgroundColor: context.colorz.dark500,
       body: Stack(
         children: [
           PageView(
@@ -80,21 +82,26 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       },
                     ),
                     SizedBox(height: SizeR.r12),
-                    SwipeSwitch(
-                      onSuccess: onSwipePage,
-                      buttonColor: context.colors.primary500,
-                      buttonLabel: BlocBuilder<OnBoardingBloc, OnBoardingState>(
-                        buildWhen: (previous, current) =>
-                            previous.stage != current.stage,
-                        builder: (context, state) {
-                          return Text(
-                            state.stage == Stage.messages
-                                ? context.l10n.next
-                                : context.l10n.proceed,
-                            style: context.styles.b1,
-                          );
-                        },
-                      ),
+                    BlocBuilder<OnBoardingBloc, OnBoardingState>(
+                      builder: (context, state) {
+                        return SwipeSwitch(
+                          onSuccess: () => onSwipePage(state, pageItems.length),
+                          buttonColor: context.colorz.primary500,
+                          buttonLabel:
+                              BlocBuilder<OnBoardingBloc, OnBoardingState>(
+                            buildWhen: (previous, current) =>
+                                previous.stage != current.stage,
+                            builder: (context, state) {
+                              return Text(
+                                state.stage == Stage.messages
+                                    ? context.l10n.next
+                                    : context.l10n.proceed,
+                                style: context.styles.b1,
+                              );
+                            },
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -106,7 +113,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     );
   }
 
-  void onSwipePage() {
+  void onSwipePage(OnBoardingState state, int pageItems) {
+    if (state.pageIndex == pageItems - 1) {
+      context.read<OnBoardingBloc>().add(SaveUserOnbordedSuccess());
+      context.replaceNamed(Routes.singup.name);
+      return;
+    }
     pageController.nextPage(
       curve: Curves.easeInOut,
       duration: const Duration(milliseconds: 300),
