@@ -5,6 +5,9 @@ import 'package:flutter_showcase/features/auth/data/local/auth_local_data_source
 import 'package:flutter_showcase/features/auth/data/remote/auth_remote_data_source.dart';
 import 'package:flutter_showcase/features/auth/data/repository/auth_repository_imp.dart';
 import 'package:flutter_showcase/features/auth/domain/repository/auth_repository.dart';
+import 'package:flutter_showcase/features/onboarding/data/local/onboarding_local_data_source.dart';
+import 'package:flutter_showcase/features/onboarding/data/repository/onboarding_repository_imp.dart';
+import 'package:flutter_showcase/features/onboarding/domain/repository/onboarding_repository_i.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -29,16 +32,24 @@ Future<void> setupLocator() async {
   final sharedPreferences = await SharedPreferences.getInstance();
 
   // Register the auth repository with a remote and local data source.
-  getIt.registerSingleton<IAuthRepository>(
-    AuthRepository(
-      authRemote: AuthRemoteDataSource(
-        dio: Dio(),
-        baseUrl: AppConfig.baseUrl,
+  getIt
+    ..registerSingleton<IAuthRepository>(
+      AuthRepository(
+        authRemote: AuthRemoteDataSource(
+          dio: Dio(),
+          baseUrl: AppConfig.baseUrl,
+        ),
+        authLocalDataSource: AuthLocalDataSource(
+          secureStorage: secureStorage,
+          sharedPreferences: sharedPreferences,
+        ),
       ),
-      authLocalDataSource: AuthLocalDataSource(
-        secureStorage: secureStorage,
-        sharedPreferences: sharedPreferences,
+    )
+    ..registerSingleton<IOnboardingRepository>(
+      OnboardingRepository(
+        authLocalDataSource: OnboardingLocalDataSource(
+          sharedPreferences: sharedPreferences,
+        ),
       ),
-    ),
-  );
+    );
 }

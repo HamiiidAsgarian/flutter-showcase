@@ -37,10 +37,10 @@ class LoginOption extends StatelessWidget {
           minimumSize: Size(70.r, 50.r),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(SizeR.r8),
-            side: BorderSide(width: 1.r, color: context.colors.greyMain),
+            side: BorderSide(width: 1.r, color: context.colorz.greyMain),
           ),
-          backgroundColor: context.colors.backgroundWhite,
-          shadowColor: context.colors.dark500.withOpacity(.2),
+          backgroundColor: context.colorz.backgroundWhite,
+          shadowColor: context.colorz.dark500.withOpacity(.2),
           elevation: 2,
         ),
         child: icon ?? const SizedBox(),

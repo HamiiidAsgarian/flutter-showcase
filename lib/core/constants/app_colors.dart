@@ -17,4 +17,6 @@ sealed class AppColors {
 
   static const borderGreen = Color.fromARGB(255, 101, 146, 123);
   static const backgroundWhite = Color.fromARGB(255, 255, 255, 255);
+
+  static const mainRed = Color.fromARGB(255, 147, 0, 0);
 }

@@ -31,8 +31,8 @@ class OnboardingItem extends StatelessWidget {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                context.colors.dark500.withOpacity(1),
-                context.colors.grey500.withOpacity(0.1),
+                context.colorz.dark500.withOpacity(1),
+                context.colorz.grey500.withOpacity(0.1),
               ],
             ),
           ),
@@ -54,7 +54,7 @@ class OnboardingItem extends StatelessWidget {
                     child: Text(
                       title,
                       style: context.styles.h2.copyWith(
-                        color: context.colors.light500.withOpacity(value),
+                        color: context.colorz.light500.withOpacity(value),
                         fontWeight: FontWeight.w800,
                       ),
                     ),
@@ -68,7 +68,7 @@ class OnboardingItem extends StatelessWidget {
                     child: Text(
                       message,
                       style: context.styles.b1.copyWith(
-                        color: context.colors.light500.withOpacity(value),
+                        color: context.colorz.light500.withOpacity(value),
                       ),
                       textAlign: TextAlign.justify,
                     ),
@@ -102,8 +102,8 @@ class PaginationIndicator extends StatelessWidget {
           return AnimatedContainer(
             decoration: BoxDecoration(
               color: isThisSelected
-                  ? context.colors.primary500
-                  : context.colors.grey500,
+                  ? context.colorz.primary500
+                  : context.colorz.grey500,
               borderRadius: BorderRadius.circular(SizeR.r12),
             ),
             margin: EdgeInsets.symmetric(horizontal: SizeR.r4),

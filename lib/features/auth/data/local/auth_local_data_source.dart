@@ -9,6 +9,7 @@ abstract class IAuthLocalDataSource {
   Future<void> saveToken(TokenModel token);
   Future<TokenModel?> getToken();
   Future<void> saveUser(UserModel userModel);
+  Future<void> removeLocals();
 }
 
 class AuthLocalDataSource implements IAuthLocalDataSource {
@@ -36,6 +37,12 @@ class AuthLocalDataSource implements IAuthLocalDataSource {
   @override
   Future<TokenModel?> getToken() async {
     return _secureStorageService.getToken();
+  }
+
+  @override
+  Future<void> removeLocals() async {
+    await _secureStorageService.clearAll();
+    await _sharedPreferencesService.clearAll();
   }
 
   Future<UserModel?> getUser() async {

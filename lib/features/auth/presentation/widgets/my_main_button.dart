@@ -17,12 +17,12 @@ class MyMainButton extends StatelessWidget {
       width: double.infinity,
       child: CupertinoButton(
         borderRadius: BorderRadius.circular(SizeR.r16),
-        color: context.colors.primary500,
+        color: context.colorz.primary500,
         onPressed: onPressed,
         child: Text(
           text,
           style:
-              context.styles.b1.copyWith(color: context.colors.backgroundWhite),
+              context.styles.b1.copyWith(color: context.colorz.backgroundWhite),
         ),
       ),
     );

@@ -15,6 +15,7 @@ class AppColorTheme {
     backgroundWhite: AppColors.backgroundWhite,
     backgroundGrey: AppColors.backgroundGrey,
     greyMain: AppColors.greyMain,
+    mainRed: AppColors.mainRed,
   );
   //----
   static CustomColors darkColorTheme =
@@ -31,6 +32,7 @@ class CustomColors {
     required this.greyMain,
     required this.backgroundWhite,
     required this.backgroundGrey,
+    required this.mainRed,
   });
 
   final Color primary500;
@@ -41,6 +43,7 @@ class CustomColors {
   final Color greyMain;
   final Color backgroundWhite;
   final Color backgroundGrey;
+  final Color mainRed;
 
   // ignore: prefer_constructors_over_static_methods
   static CustomColors lerp(
@@ -60,6 +63,7 @@ class CustomColors {
       greyMain: Color.lerp(a.greyMain, b.greyMain, t)!,
       backgroundWhite: Color.lerp(a.backgroundWhite, b.backgroundWhite, t)!,
       backgroundGrey: Color.lerp(a.backgroundGrey, b.backgroundGrey, t)!,
+      mainRed: Color.lerp(a.mainRed, b.mainRed, t)!,
     );
   }
 
@@ -72,6 +76,7 @@ class CustomColors {
     Color? greyMain,
     Color? backgroundWhite,
     Color? backgroundGrey,
+    Color? mainRed,
   }) {
     return CustomColors(
       primary500: primary500 ?? this.primary500,
@@ -82,6 +87,7 @@ class CustomColors {
       greyMain: greyMain ?? this.greyMain,
       backgroundWhite: backgroundWhite ?? this.backgroundWhite,
       backgroundGrey: backgroundGrey ?? this.backgroundGrey,
+      mainRed: mainRed ?? this.mainRed,
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_showcase/core/rouing/app_router.dart';
 import 'package:flutter_showcase/core/shared/auth_form.dart';
+import 'package:flutter_showcase/core/widgets/snackbar.dart';
 import 'package:flutter_showcase/features/auth/presentation/signup_screen_bloc.dart';
 import 'package:flutter_showcase/l10n/ln10.dart';
 import 'package:go_router/go_router.dart';
@@ -71,11 +72,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   Future<void> _showSnackbar() async {
-    final snackBar = SnackBar(
-      content: Text(context.l10n.signup),
-      duration: const Duration(seconds: 1),
+    await AppSnackbar.showSuccess(
+      context: context,
+      message: 'success!',
     );
-
-    await ScaffoldMessenger.of(context).showSnackBar(snackBar).closed;
   }
 }
