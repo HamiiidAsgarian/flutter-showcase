@@ -1,3 +1,5 @@
+import 'package:flutter_showcase/core/errors/exceptions.dart';
+
 class TokenValidationResponseModel {
   TokenValidationResponseModel({
     required this.isValid,
@@ -5,10 +7,21 @@ class TokenValidationResponseModel {
   });
 
   factory TokenValidationResponseModel.fromJson(Map<String, dynamic> json) {
-    return TokenValidationResponseModel(
-      isValid: (json['success'] ?? false) as bool,
-      message: json['message'] as String?,
-    );
+    if (json
+        case {
+          'success': final bool isValid,
+          'message': final String? message
+        }) {
+      return TokenValidationResponseModel(
+        isValid: isValid,
+        message: message,
+      );
+    } else {
+      throw JsonParseException(
+        body: json.toString(),
+        error: 'success or message is missing',
+      );
+    }
   }
   final bool isValid;
   final String? message;
