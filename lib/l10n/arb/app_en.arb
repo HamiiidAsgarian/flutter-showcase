@@ -1,0 +1,35 @@
+{
+  "onboardingTitle1":"Location and destination",
+  "onboardingMessage1":"Your destination is at your fingerprint.Open the app and enter where you want to go ",
+
+  "onboardingTitle2":"Services quality",
+  "onboardingMessage2":"You have access to the best quality services ever",
+
+  "onboardingTitle3":"Be Comfortable",
+  "onboardingMessage3":"Make sure that you will have a relax time with family",
+
+  "next": "Next",
+
+  "proceed": "Proceed",
+  "logIntoYourAccount": "Log Into Your Account",
+  "createYourAccount": "Create Your Account",
+  "email": "email",
+  "password": "password",
+  "rememberMe": "Remember me",
+  "login": "Login",
+  "orContinueWith": "or continue with",
+  "dontHaveAnAccount": "Don't you have an account",
+  "dontRememberYourPassword": "Don't remember your password?",
+  "signup": "Signup",
+  "login": "Login",
+  "emailIsIncorrect" : "Email Is Incorrect",
+
+  "passwordRequirement1": "Password must be at least 8 characters long",
+  "passwordRequirement2": "Password must contain at least one upper case letter",
+  "passwordRequirement3": "Password must contain at least one lower case letter",
+  "passwordRequirement4": "Password must contain at least one number",
+  "passwordRequirement5": "Password must contain at least one special character",
+  "successMessage":  "success!",
+  "failMessage": "Autentication failed!"
+
+}
