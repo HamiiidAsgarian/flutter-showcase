@@ -13,7 +13,7 @@ jobs:
   flutter_test:
     name: Run tests and analysis
     runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/main' }}
+    if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.ref == 'develop'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
